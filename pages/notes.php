@@ -18,7 +18,7 @@ include dirname(__DIR__) . '/includes/navbar.php';
 </div>
 
 <div class="container" style="max-width: 1200px; overflow-x: auto;">
-  <!-- Add Task Bar -->
+
   <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:24px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px">
     <input type="text" id="kanban-input" placeholder="اكتب اسم المهمة الجديدة واضغط Enter..." style="flex:1; padding:12px 16px; border-radius:10px; border:1px solid var(--border); background:var(--bg); color:var(--text); font-family:'Cairo',sans-serif; outline:none; min-width:200px;">
     <button onclick="addKanbanTask()" class="btn-primary" style="padding:12px 24px;">➕ إضافة مهمة</button>
@@ -28,9 +28,8 @@ include dirname(__DIR__) . '/includes/navbar.php';
     </button>
   </div>
 
-  <!-- Kanban Board -->
   <div class="kanban-board" style="display: grid; grid-template-columns: repeat(3, minmax(280px, 1fr)); gap: 24px; align-items: start;">
-    
+
     <!-- Column: To Do -->
     <div class="kanban-col" data-col="todo" style="background:var(--bg); border:1px solid var(--border); border-radius:16px; padding:16px; min-height: 400px; display:flex; flex-direction:column;">
       <h3 style="font-family:'Tajawal',sans-serif; margin-bottom:16px; display:flex; align-items:center; gap:8px; color:var(--text);">
@@ -80,7 +79,7 @@ function addKanbanTask() {
     const input = document.getElementById('kanban-input');
     const text = input.value.trim();
     if(!text) return;
-    
+
     const id = generateId();
     kanbanData[id] = { id, text, status: 'todo' };
     saveKanban();
@@ -102,7 +101,7 @@ function deleteKanbanTask(id) {
 
 function renderKanban() {
     document.querySelectorAll('.kanban-dropzone').forEach(zone => zone.innerHTML = '');
-    
+
     for(const id in kanbanData) {
         const task = kanbanData[id];
         const zone = document.querySelector(`.kanban-col[data-col="${task.status}"] .kanban-dropzone`);
@@ -118,8 +117,7 @@ function renderKanban() {
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
             `;
-            
-            // Drag Events
+
             el.addEventListener('dragstart', (e) => {
                 el.style.opacity = '0.4';
                 e.dataTransfer.setData('text/plain', id);
@@ -127,13 +125,12 @@ function renderKanban() {
             el.addEventListener('dragend', () => {
                 el.style.opacity = '1';
             });
-            
+
             zone.appendChild(el);
         }
     }
 }
 
-// Dropzone Setup
 document.querySelectorAll('.kanban-dropzone').forEach(zone => {
     zone.addEventListener('dragover', e => {
         e.preventDefault();
@@ -156,7 +153,6 @@ document.querySelectorAll('.kanban-dropzone').forEach(zone => {
     });
 });
 
-// Initialize on load
 initKanban();
 </script>
 

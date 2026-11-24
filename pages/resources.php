@@ -6,10 +6,8 @@ $currentPage = '/resources';
 $pageTitle   = 'الموارد التعليمية ومسارات التعلم';
 $bp          = BASE_PATH;
 
-// جلب الروابط من قاعدة البيانات (مرتبة حسب الترتيب)
 $adminLinks = db_all("SELECT * FROM important_links WHERE is_active=1 ORDER BY sort_order, id");
 
-// تحديث التصنيفات لتتناسب مع المسارات الجديدة
 $linkCats = [
     'frontend'    => 'دبلومة Front-End',
     'backend'     => 'دبلومة Back-End',
@@ -84,24 +82,23 @@ include dirname(__DIR__) . '/includes/navbar.php';
   .roadmap-section { margin-bottom: 40px; }
   .roadmap-badge { background: var(--primary-bg); color: var(--primary); padding: 8px 18px; border-radius: 20px; font-weight: 800; font-size: 15px; display: inline-block; margin-bottom: 20px; border: 1px solid var(--primary); }
   .roadmap-timeline { border-right: 3px dashed var(--border); padding-right: 30px; margin-right: 15px; position: relative; display: flex; flex-direction: column; gap: 20px; }
-  
+
   .roadmap-item { position: relative; background: var(--card); border: 1px solid var(--border); padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.02); transition: 0.3s; text-decoration: none !important; color: inherit; }
   .roadmap-item:hover { border-color: var(--primary); transform: translateX(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.05); }
-  
-  /* النقطة على الخط الزمني */
+
   .roadmap-item::before { content: ''; position: absolute; right: -39px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; background: var(--primary); border-radius: 50%; border: 3px solid var(--bg); box-shadow: 0 0 0 3px var(--primary-bg); transition: 0.3s; }
   .roadmap-item:hover::before { background: var(--amber); box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.2); }
-  
+
   .roadmap-content { display: flex; align-items: center; gap: 15px; }
   .roadmap-icon { font-size: 28px; background: var(--primary-bg); width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; border-radius: 12px; }
   .roadmap-info h4 { margin: 0 0 6px 0; font-size: 17px; color: var(--text); font-weight: bold; }
   .roadmap-info p { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.5; }
-  
+
   .roadmap-step { position: absolute; right: 20px; top: -12px; background: var(--bg); border: 1px solid var(--border); font-size: 12px; padding: 3px 10px; border-radius: 12px; color: var(--muted); font-weight: bold; }
-  
+
   .roadmap-action { background: var(--primary); color: white; padding: 8px 16px; border-radius: 8px; font-weight: bold; font-size: 13px; transition: 0.2s; white-space: nowrap; }
   .roadmap-item:hover .roadmap-action { background: var(--primary-hover); }
-  
+
   @media(max-width: 600px) {
     .roadmap-item { flex-direction: column; align-items: flex-start; gap: 15px; }
     .roadmap-action { align-self: flex-end; }
@@ -122,13 +119,13 @@ include dirname(__DIR__) . '/includes/navbar.php';
     <div class="section-icon" style="background:#D8EDFF">🗺️</div>
     <div><div class="section-title">مسارات التعلم (Roadmaps)</div><div class="section-bar" style="background:#1A7FD4"></div></div>
   </div>
-  
+
   <?php foreach ($groupedLinks as $type => $links): ?>
     <?php $categoryName = $linkCats[$type] ?? $type; ?>
     <div class="roadmap-section">
       <div class="roadmap-badge">📍 <?= e($categoryName) ?></div>
       <div class="roadmap-timeline">
-        
+
         <?php foreach ($links as $lk): ?>
           <a href="<?= e($lk['url']) ?>" target="_blank" rel="noopener" class="roadmap-item">
             <div class="roadmap-step">الخطوة <?= (int)$lk['sort_order'] ?></div>
@@ -142,7 +139,7 @@ include dirname(__DIR__) . '/includes/navbar.php';
             <div class="roadmap-action">ابدأ الآن ↗</div>
           </a>
         <?php endforeach; ?>
-        
+
       </div>
     </div>
   <?php endforeach; ?>
@@ -151,7 +148,6 @@ include dirname(__DIR__) . '/includes/navbar.php';
 <div class="divider"><div class="divider-line"></div><div class="divider-text">📚 موارد وأدوات عامة مقترحة</div><div class="divider-line"></div></div>
 <?php endif; ?>
 
-<!-- المصادر العامة الثابتة -->
 <?php foreach ($staticResources as $cat): ?>
 <div style="margin-bottom:36px">
   <div class="section-header">

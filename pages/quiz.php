@@ -21,7 +21,7 @@ $quizzes = file_exists($quizzesFile) ? json_decode(file_get_contents($quizzesFil
 </div>
 
 <div class="container" style="max-width:800px; padding-bottom:60px;">
-  
+
   <div id="quiz-list-view">
     <?php if(empty($quizzes)): ?>
       <div style="text-align:center; padding:40px; color:var(--muted); background:var(--card); border-radius:16px; border:1px solid var(--border);">
@@ -44,20 +44,18 @@ $quizzes = file_exists($quizzesFile) ? json_decode(file_get_contents($quizzesFil
   </div>
 
   <div id="quiz-active-view" style="display:none; background:var(--card); border:1px solid var(--border); border-radius:16px; padding:30px; box-shadow:0 10px 30px var(--shadow-lg);">
-    
+
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
       <div style="font-weight:700; color:var(--text); font-size:18px;" id="q-title-display">العنوان</div>
       <div style="background:var(--primary-bg); color:var(--primary); padding:6px 16px; border-radius:20px; font-weight:700; font-family:monospace; font-size:16px;" id="q-timer">00:00</div>
     </div>
-    
-    <!-- Progress Bar -->
+
     <div style="width:100%; height:8px; background:var(--border); border-radius:4px; margin-bottom:30px; overflow:hidden;">
       <div id="q-progress" style="height:100%; width:0%; background:var(--primary); transition:width 0.3s ease;"></div>
     </div>
 
-    <!-- Question Container -->
     <div id="q-container"></div>
-    
+
   </div>
 
 </div>
@@ -73,22 +71,22 @@ let secondsElapsed = 0;
 function startQuiz(index) {
   currentQuiz = quizzes[index];
   if(!currentQuiz || !currentQuiz.questions || currentQuiz.questions.length === 0) return;
-  
+
   currentQuestionIndex = 0;
   score = 0;
   secondsElapsed = 0;
-  
+
   document.getElementById('quiz-list-view').style.display = 'none';
   document.getElementById('quiz-active-view').style.display = 'block';
   document.getElementById('q-title-display').innerText = currentQuiz.title;
-  
+
   timerInterval = setInterval(() => {
     secondsElapsed++;
     const m = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
     const s = (secondsElapsed % 60).toString().padStart(2, '0');
     document.getElementById('q-timer').innerText = `${m}:${s}`;
   }, 1000);
-  
+
   showQuestion();
 }
 
@@ -97,16 +95,16 @@ function showQuestion() {
     endQuiz();
     return;
   }
-  
+
   const q = currentQuiz.questions[currentQuestionIndex];
   const percent = ((currentQuestionIndex) / currentQuiz.questions.length) * 100;
   document.getElementById('q-progress').style.width = percent + '%';
-  
+
   let html = `
     <h2 style="font-family:'Tajawal',sans-serif; color:var(--text); margin-bottom:24px; line-height:1.5;">${currentQuestionIndex + 1}. ${esc(q.q)}</h2>
     <div style="display:flex; flex-direction:column; gap:12px;">
   `;
-  
+
   q.options.forEach((opt, i) => {
     html += `
       <button class="quiz-opt" onclick="selectAnswer(${i}, ${q.answer})" style="text-align:right; padding:16px; background:var(--bg); border:2px solid var(--border); border-radius:12px; font-size:16px; font-family:'Cairo',sans-serif; color:var(--text); cursor:pointer; transition:0.2s;">
@@ -114,7 +112,7 @@ function showQuestion() {
       </button>
     `;
   });
-  
+
   html += `</div>`;
   document.getElementById('q-container').innerHTML = html;
 }
@@ -125,7 +123,7 @@ function selectAnswer(selectedIndex, correctIndex) {
     btn.disabled = true;
     btn.style.cursor = 'default';
   });
-  
+
   if (selectedIndex === correctIndex) {
     opts[selectedIndex].style.borderColor = 'var(--success)';
     opts[selectedIndex].style.background = 'rgba(16, 185, 129, 0.1)';
@@ -136,7 +134,7 @@ function selectAnswer(selectedIndex, correctIndex) {
     opts[correctIndex].style.borderColor = 'var(--success)';
     opts[correctIndex].style.background = 'rgba(16, 185, 129, 0.1)';
   }
-  
+
   setTimeout(() => {
     currentQuestionIndex++;
     showQuestion();
@@ -146,22 +144,22 @@ function selectAnswer(selectedIndex, correctIndex) {
 function endQuiz() {
   clearInterval(timerInterval);
   document.getElementById('q-progress').style.width = '100%';
-  
+
   const m = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
   const s = (secondsElapsed % 60).toString().padStart(2, '0');
-  
+
   const percentage = Math.round((score / currentQuiz.questions.length) * 100);
   let msg = '';
   if(percentage >= 85) msg = 'ممتاز جداً! 🎉';
   else if(percentage >= 65) msg = 'جيد، يمكنك التحسن 👍';
   else msg = 'تحتاج إلى المراجعة مرة أخرى 📚';
-  
+
   document.getElementById('q-container').innerHTML = `
     <div style="text-align:center; padding:20px;">
       <div style="font-size:60px; margin-bottom:20px;">${percentage >= 85 ? '🏆' : '🎯'}</div>
       <h2 style="font-family:'Tajawal',sans-serif; color:var(--text); margin-bottom:10px;">انتهى الاختبار</h2>
       <p style="color:var(--muted); font-size:16px; margin-bottom:30px;">${msg}</p>
-      
+
       <div style="display:flex; justify-content:center; gap:20px; margin-bottom:30px;">
         <div style="background:var(--bg); border:1px solid var(--border); padding:20px; border-radius:16px; min-width:120px;">
           <div style="font-size:28px; font-weight:800; color:var(--primary); margin-bottom:4px;">${percentage}%</div>
@@ -172,7 +170,7 @@ function endQuiz() {
           <div style="font-size:13px; color:var(--muted);">الزمن المستغرق</div>
         </div>
       </div>
-      
+
       <button class="btn-primary" onclick="location.reload()" style="padding:14px 30px; font-size:16px; margin:0 auto;">العودة للقائمة الرئيسية</button>
     </div>
   `;

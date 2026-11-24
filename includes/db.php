@@ -14,7 +14,7 @@ function getDB(): PDO {
         ]);
     } catch (PDOException $e) {
         die('<div style="font-family:Cairo,sans-serif;direction:rtl;text-align:center;padding:50px;color:#dc2626;background:#fef2f2">
-            ❌ خطأ في الاتصال بقاعدة البيانات<br><small>'.$e->getMessage().'</small>
+            ❌ خطأ في الاتصال بقاعدة البيانات
         </div>');
     }
     return $pdo;

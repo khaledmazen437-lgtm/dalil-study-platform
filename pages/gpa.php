@@ -11,12 +11,12 @@ include __DIR__ . '/../includes/navbar.php';
 ?>
 
 <div class="container" style="max-width:850px; padding: 40px 15px; min-height: 80vh; margin: 0 auto;">
-  
+
   <!-- Spline 3D Viewer Header -->
   <div style="position:relative; width:100%; height:280px; border-radius:24px; overflow:hidden; margin-bottom:30px; background:linear-gradient(135deg, #0f172a, #1e293b); box-shadow: 0 10px 40px rgba(15, 23, 42, 0.2); display: flex; align-items: center; justify-content: center; isolation: isolate;">
     <script type="module" src="https://unpkg.com/@splinetool/viewer@1.0.51/build/spline-viewer.js"></script>
     <spline-viewer url="https://prod.spline.design/iWj6E0W12r69vJ1p/scene.splinecode" style="width: 100%; height: 100%; position: absolute; top:0; left:0; z-index: 1; pointer-events: auto;"></spline-viewer>
-    
+
     <div style="position:relative; z-index:2; text-align:center; padding: 25px 40px; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 8px 32px rgba(0,0,0,0.2); pointer-events: none;">
       <h1 style="color:#fff; margin:0; font-family:'Tajawal', sans-serif; font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 900; text-shadow: 0 2px 10px rgba(0,0,0,0.3);">حاسبة الـ GPA</h1>
       <p style="color:#cbd5e1; margin-top:8px; font-size: 15px; font-weight: 500;">احسب معدلك التراكمي والفصلي بكل سهولة ودقة ✨</p>
@@ -24,8 +24,7 @@ include __DIR__ . '/../includes/navbar.php';
   </div>
 
   <div id="gpa-card-capture" style="background:var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 35px 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
-    
-    <!-- Prior GPA Section -->
+
     <div style="background: var(--primary-bg); padding: 20px; border-radius: 16px; margin-bottom: 30px; border: 1px solid var(--border); position: relative; overflow: hidden;">
         <div style="position: absolute; top: -10px; right: -10px; font-size: 80px; opacity: 0.05; pointer-events: none;">⏳</div>
         <h3 style="margin:0 0 15px 0; font-size: 1.15rem; color: var(--primary); font-family: 'Tajawal', sans-serif; font-weight: 800; display: flex; align-items: center; gap: 8px;">
@@ -44,7 +43,6 @@ include __DIR__ . '/../includes/navbar.php';
         </div>
     </div>
 
-    <!-- Courses Header -->
     <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
         <h2 style="margin:0; font-family:'Tajawal', sans-serif; font-size: 1.5rem; color:var(--text); font-weight: 900;">مواد الفصل الحالي</h2>
         <button id="add-course-btn" style="background: linear-gradient(135deg, var(--primary), #0ea5c9); color:#fff; border:none; padding: 12px 24px; border-radius: 14px; font-weight: 800; font-family: 'Cairo', sans-serif; font-size: 15px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.3s; box-shadow: 0 4px 15px rgba(26, 127, 212, 0.3);">
@@ -81,7 +79,7 @@ include __DIR__ . '/../includes/navbar.php';
             <div id="cum-gpa" style="font-family: 'Tajawal', sans-serif; font-weight: 900; font-size: 3.5rem; line-height: 1; text-shadow: 0 4px 12px rgba(0,0,0,0.15);">0.00</div>
         </div>
     </div>
-    
+
     <div style="margin-top: 30px; text-align: center;">
         <button id="tour-share-btn" onclick="shareGPA()" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border: none; padding: 14px 28px; border-radius: 14px; font-weight: 800; font-family: 'Cairo', sans-serif; font-size: 16px; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'" data-intro="شارك نتيجتك مع أصدقائك بضغطة زر كصورة أنيقة!" data-step="4">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
@@ -129,7 +127,7 @@ function addCourseRow() {
     tr.style.background = 'var(--bg)';
     tr.style.boxShadow = '0 2px 10px rgba(0,0,0,0.02)';
     tr.style.borderRadius = '14px';
-    
+
     tr.innerHTML = `
         <td style="padding: 6px 12px; border-radius: 0 14px 14px 0;">
             <input type="text" placeholder="مادة ${courseCount}" class="course-name course-input-focus" style="width:100%; padding: 12px 16px; border-radius: 10px; background: var(--card); color:var(--text); font-family: 'Cairo', sans-serif; font-size: 15px; font-weight: 600;">
@@ -159,7 +157,7 @@ function addCourseRow() {
             </button>
         </td>
     `;
-    
+
     tr.querySelector('.delete-btn').addEventListener('click', () => {
         tr.style.opacity = '0';
         tr.style.transform = 'translateX(30px)';
@@ -177,8 +175,7 @@ function addCourseRow() {
     });
 
     coursesList.appendChild(tr);
-    
-    // Animation for adding
+
     tr.style.opacity = '0';
     tr.style.transform = 'translateY(15px)';
     setTimeout(() => {
@@ -196,7 +193,7 @@ function calculateGPA() {
     rows.forEach(row => {
         const credit = parseFloat(row.querySelector('.course-credits').value);
         const grade = parseFloat(row.querySelector('.course-grade').value);
-        
+
         if (!isNaN(credit) && grade >= 0) {
             totalPoints += credit * grade;
             totalCredits += credit;
@@ -226,14 +223,14 @@ function animateValue(obj, start, end, duration) {
     const step = (timestamp) => {
         if (!startTimestamp) startTimestamp = timestamp;
         const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        const easeProgress = 1 - Math.pow(1 - progress, 3); // Cubic ease out
+        const easeProgress = 1 - Math.pow(1 - progress, 3);
         const val = easeProgress * (end - start) + start;
         obj.innerHTML = val.toFixed(2);
         if (progress < 1) {
             window.requestAnimationFrame(step);
         } else {
             obj.innerHTML = end.toFixed(2);
-            // Add a little pop effect when it finishes
+
             obj.style.transform = 'scale(1.1)';
             setTimeout(() => {
                 obj.style.transition = 'transform 0.2s';
@@ -244,13 +241,11 @@ function animateValue(obj, start, end, duration) {
     window.requestAnimationFrame(step);
 }
 
-// Event Listeners for Prior GPA
 prevCreditsInput.addEventListener('input', calculateGPA);
 prevGpaInput.addEventListener('input', calculateGPA);
 
 addCourseBtn.addEventListener('click', addCourseRow);
 
-// Init with 5 rows for better initial look
 for(let i=0; i<5; i++) addCourseRow();
 
 // Interactive Spline viewer fallback (in case it fails to load)
@@ -261,7 +256,6 @@ window.addEventListener('load', () => {
     });
 });
 
-// --- Share GPA Logic ---
 function shareGPA() {
     const target = document.getElementById('gpa-card-capture');
     html2canvas(target, {

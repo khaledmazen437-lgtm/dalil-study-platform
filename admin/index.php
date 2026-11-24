@@ -29,8 +29,7 @@ if (isset($_GET['logout'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $user = trim($_POST['username'] ?? '');
     $pass = trim($_POST['password'] ?? '');
-    
-    // فحص بيانات الدخول باستخدام الثوابت من config.php
+
     if ($user === ADMIN_USER && hash('sha256', $pass . ADMIN_SALT) === ADMIN_HASH) {
         session_regenerate_id(true); // حماية ضد Session Fixation
         $_SESSION['admin_logged_in'] = true;
@@ -195,7 +194,7 @@ $section = $_GET['s'] ?? 'dashboard';
   <link rel="stylesheet" href="<?= $bp ?>/assets/style.css">
   <script>(function(){var t=localStorage.getItem('dalil-theme')||'light';document.documentElement.setAttribute('data-theme',t)})();</script>
 </head>
-<body oncontextmenu="return false;"> <!-- منع الزر الأيمن في البودي -->
+<body oncontextmenu="return false;">
 
 <?php if (!$loggedIn): ?>
 <!-- ══ LOGIN PAGE ══ -->
@@ -226,7 +225,6 @@ $section = $_GET['s'] ?? 'dashboard';
 <!-- ══ ADMIN DASHBOARD ══ -->
 <div style="display:flex;flex-direction:column;min-height:100vh">
 
-<!-- Top bar -->
 <div class="admin-topbar">
   <div style="display:flex;align-items:center;gap:12px">
     <a href="<?= $bp ?>/" class="brand-logo" style="width:34px;height:34px;font-size:16px;border-radius:9px">د</a>
@@ -241,7 +239,6 @@ $section = $_GET['s'] ?? 'dashboard';
 
 <div style="display:flex;flex:1">
 
-<!-- Sidebar -->
 <div class="admin-sidebar">
   <?php
   $sections = [
@@ -266,7 +263,6 @@ $section = $_GET['s'] ?? 'dashboard';
   </div>
 </div>
 
-<!-- Main -->
 <div class="admin-main">
 
 <!-- ── Dashboard ── -->
@@ -435,14 +431,13 @@ $section = $_GET['s'] ?? 'dashboard';
 (function() {
     'use strict';
 
-    // 1. تعطيل الزر الأيمن للفأرة تماماً
     document.addEventListener('contextmenu', function(e) {
         e.preventDefault();
     }, false);
 
     // 2. تعطيل اختصارات لوحة المفاتيح (F12, Ctrl+Shift+I, Ctrl+U, etc.)
     document.addEventListener('keydown', function(e) {
-        // F12
+
         if (e.keyCode === 123) {
             e.preventDefault();
             return false;
@@ -474,7 +469,6 @@ $section = $_GET['s'] ?? 'dashboard';
         }
     }, false);
 
-    // 3. نظام اكتشاف فتح الـ DevTools (Debugger Loop)
     // بمجرد فتح الكونسول، سيتوقف المتصفح عند الـ debugger مما يجعل استخدامه مستحيلاً
     setInterval(function() {
         var startTime = performance.now();
@@ -486,7 +480,6 @@ $section = $_GET['s'] ?? 'dashboard';
         }
     }, 1000);
 
-    // 4. تعطيل وظيفة الكونسول البرمجية
     if (typeof console !== "undefined") {
         console.log = console.warn = console.error = console.info = function() {
             return false;
@@ -621,9 +614,9 @@ async function load_questions() {
     </tr>`).join('');
 }
 async function questionsAdd() {
-    await api('questions_add', { 
-        course_id: val('q-course'), title: val('q-title'), 
-        type: val('q-type'), file_url: val('q-file'), telegram_url: val('q-tg') 
+    await api('questions_add', {
+        course_id: val('q-course'), title: val('q-title'),
+        type: val('q-type'), file_url: val('q-file'), telegram_url: val('q-tg')
     });
     clear('q-title','q-file','q-tg'); load_questions();
 }
@@ -639,9 +632,9 @@ async function load_weekly() {
     </tr>`).join('');
 }
 async function weeklyAdd() {
-    await api('weekly_add', { 
-        course_id: val('w-course'), week_number: val('w-num'), 
-        week_title: val('w-title'), telegram_url: val('w-url') 
+    await api('weekly_add', {
+        course_id: val('w-course'), week_number: val('w-num'),
+        week_title: val('w-title'), telegram_url: val('w-url')
     });
     clear('w-num','w-title','w-url'); load_weekly();
 }

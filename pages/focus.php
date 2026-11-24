@@ -11,7 +11,7 @@ include __DIR__ . '/../includes/navbar.php';
 ?>
 
 <div class="container" style="max-width:900px; padding: 40px 15px; min-height: 85vh;">
-    <!-- Header -->
+
     <div style="text-align: center; margin-bottom: 40px;">
         <div style="display:inline-flex;align-items:center;justify-content:center;width:72px;height:72px;border-radius:20px;background:var(--card);border:1px solid var(--border);box-shadow:0 10px 30px var(--shadow);font-size:32px;margin-bottom:20px; color: var(--primary);">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
@@ -21,11 +21,10 @@ include __DIR__ . '/../includes/navbar.php';
     </div>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
-        
-        <!-- Timer Widget -->
+
         <div class="card" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px;">
             <div id="timer-mode" style="font-weight: 700; color: var(--accent); margin-bottom: 15px; font-size: 16px; letter-spacing: 1px;">وقت الدراسة</div>
-            
+
             <div style="position: relative; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; margin-bottom: 30px;">
                 <svg width="220" height="220" viewBox="0 0 220 220" style="position: absolute; transform: rotate(-90deg);">
                     <circle cx="110" cy="110" r="100" fill="none" stroke="var(--border)" stroke-width="8"></circle>
@@ -43,7 +42,7 @@ include __DIR__ . '/../includes/navbar.php';
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
                 </button>
             </div>
-            
+
             <div style="margin-top: 30px; display: flex; gap: 10px;">
                 <button onclick="setMode('work')" style="background:var(--primary-bg); border:none; color:var(--primary); padding:8px 16px; border-radius:10px; font-weight:700; cursor:pointer; font-family:'Cairo',sans-serif;">دراسة (25)</button>
                 <button onclick="setMode('break')" style="background:var(--bg); border:1px solid var(--border); color:var(--text); padding:8px 16px; border-radius:10px; font-weight:700; cursor:pointer; font-family:'Cairo',sans-serif;">راحة (5)</button>
@@ -52,7 +51,7 @@ include __DIR__ . '/../includes/navbar.php';
 
         <!-- Ambient Noise & Quick Tasks -->
         <div style="display: flex; flex-direction: column; gap: 24px;">
-            <!-- Ambience -->
+
             <div class="card" style="padding: 24px;">
                 <h3 style="font-family:'Tajawal',sans-serif; margin-bottom: 16px; display:flex; align-items:center; gap:8px;">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
@@ -78,7 +77,6 @@ include __DIR__ . '/../includes/navbar.php';
                 </div>
             </div>
 
-            <!-- Quick Tasks -->
             <div class="card" style="padding: 24px; flex:1;">
                 <h3 style="font-family:'Tajawal',sans-serif; margin-bottom: 16px; display:flex; align-items:center; gap:8px;">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
@@ -91,7 +89,7 @@ include __DIR__ . '/../includes/navbar.php';
                     </button>
                 </div>
                 <div id="tasks-list" style="display:flex; flex-direction:column; gap:8px;">
-                    <!-- Tasks injected here -->
+
                 </div>
             </div>
         </div>
@@ -99,7 +97,7 @@ include __DIR__ . '/../includes/navbar.php';
 </div>
 
 <script>
-// --- Timer Logic ---
+
 let TIME_LIMIT = 25 * 60;
 let timePassed = 0;
 let timeLeft = TIME_LIMIT;
@@ -127,7 +125,7 @@ function setMode(mode) {
     iconPause.style.display = 'none';
     currentMode = mode;
     timePassed = 0;
-    
+
     if(mode === 'work') {
         TIME_LIMIT = 25 * 60;
         modeText.innerText = 'وقت الدراسة';
@@ -139,7 +137,7 @@ function setMode(mode) {
         modeText.style.color = 'var(--success)';
         timerProgress.style.stroke = 'var(--success)';
     }
-    
+
     timeLeft = TIME_LIMIT;
     timerDisplay.innerText = formatTime(timeLeft);
     setCircleDasharray();
@@ -157,19 +155,19 @@ function toggleTimer() {
             timeLeft = TIME_LIMIT - timePassed;
             timerDisplay.innerText = formatTime(timeLeft);
             setCircleDasharray();
-            
+
             if (timeLeft === 0) {
                 clearInterval(timerInterval);
                 isRunning = false;
                 iconPlay.style.display = 'block';
                 iconPause.style.display = 'none';
-                
+
                 if (currentMode === 'work') {
                     let stats = JSON.parse(localStorage.getItem('dalil-study-stats')) || {};
                     let today = new Date().toISOString().split('T')[0];
                     stats[today] = (stats[today] || 0) + 25;
                     localStorage.setItem('dalil-study-stats', JSON.stringify(stats));
-                    
+
                     if (window.Gamification) {
                         window.Gamification.addXP(50);
                     } else {
@@ -197,15 +195,14 @@ function setCircleDasharray() {
     timerProgress.style.strokeDashoffset = dashoffset;
 }
 
-// --- Tasks Logic ---
 function addTask() {
     const input = document.getElementById('task-input');
     const val = input.value.trim();
     if(!val) return;
-    
+
     const div = document.createElement('div');
     div.style.cssText = 'display:flex; align-items:center; justify-content:space-between; padding:10px 14px; background:var(--bg); border:1px solid var(--border); border-radius:8px; font-size:13px; animation: fadeUp 0.3s;';
-    
+
     div.innerHTML = `
         <div style="display:flex; align-items:center; gap:10px;">
             <input type="checkbox" style="width:16px; height:16px; accent-color:var(--primary); cursor:pointer;" onchange="this.nextElementSibling.style.textDecoration = this.checked ? 'line-through' : 'none'; this.nextElementSibling.style.opacity = this.checked ? '0.5' : '1';">
@@ -213,7 +210,7 @@ function addTask() {
         </div>
         <button onclick="this.parentElement.remove()" style="background:none; border:none; color:var(--danger); cursor:pointer; display:flex; align-items:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
     `;
-    
+
     document.getElementById('tasks-list').appendChild(div);
     input.value = '';
 }
@@ -238,7 +235,6 @@ document.querySelectorAll('.sound-btn').forEach(btn => {
     });
 });
 
-// Initialize
 setMode('work');
 </script>
 

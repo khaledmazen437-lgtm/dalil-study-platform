@@ -2,7 +2,6 @@
 // السماح باستقبال البيانات كـ JSON
 header('Content-Type: application/json; charset=utf-8');
 
-// استلام الرسالة من الجافاسكريبت
 $data = json_decode(file_get_contents('php://input'), true);
 $userMessage = $data['message'] ?? '';
 
@@ -11,13 +10,10 @@ if (empty($userMessage)) {
     exit;
 }
 
-
-
 $systemPrompt = "أنت مساعد ذكي لمنصة تعليمية اسمها 'دليل' مخصصة لطلاب كلية الحاسبات والمعلومات. أجب باختصار وبطريقة ودية ومفيدة. رسالة الطالب هي: ";
 
-// 3. تجهيز البيانات (تم التحديث إلى أحدث موديل Llama 3.3)
 $payload = [
-    "model" => "llama-3.3-70b-versatile", 
+    "model" => "llama-3.3-70b-versatile",
     "messages" => [
         [
             "role" => "system",
@@ -30,11 +26,10 @@ $payload = [
     ]
 ];
 
-// إرسال الطلب باستخدام cURL
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
-// إرسال المفتاح في الـ Headers
+
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Content-Type: application/json',
     'Authorization: Bearer ' . $apiKey
@@ -63,8 +58,6 @@ if ($httpcode !== 200) {
     exit;
 }
 
-// استخراج الرد
 $aiReply = $responseData['choices'][0]['message']['content'] ?? 'حدث خطأ في قراءة الرد.';
 
-// إرجاع الرد للمتصفح
 echo json_encode(['reply' => $aiReply]);

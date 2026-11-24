@@ -25,8 +25,7 @@ include dirname(__DIR__) . '/includes/navbar.php';
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="container">
-  
-  <!-- Study Analytics Dashboard -->
+
   <div class="card" style="padding: 24px; margin-bottom: 28px;">
     <h3 style="font-family:'Tajawal',sans-serif; margin-top:0; color:var(--text); margin-bottom:16px;">📈 تحليلات المذاكرة (Pomodoro)</h3>
     <p style="font-size:13px; color:var(--muted); margin-bottom:20px;">يوضح الرسم البياني التالي عدد الدقائق التي قضيتها في "مركز التركيز" خلال آخر 7 أيام.</p>
@@ -93,18 +92,18 @@ include dirname(__DIR__) . '/includes/navbar.php';
     const stats = JSON.parse(localStorage.getItem('dalil-study-stats')) || {};
     const labels = [];
     const data = [];
-    
+
     // Generate last 7 days dynamically
     for(let i=6; i>=0; i--) {
         let d = new Date();
         d.setDate(d.getDate() - i);
         let dateStr = d.toISOString().split('T')[0];
-        // Format for display (e.g. "5/3")
+
         let displayStr = d.getDate() + '/' + (d.getMonth()+1);
         labels.push(displayStr);
         data.push(stats[dateStr] || 0);
     }
-    
+
     const ctx = document.getElementById('studyChart').getContext('2d');
     new Chart(ctx, {
         type: 'bar',
@@ -123,7 +122,7 @@ include dirname(__DIR__) . '/includes/navbar.php';
             responsive: true,
             maintainAspectRatio: false,
             scales: {
-                y: { 
+                y: {
                     beginAtZero: true,
                     ticks: { color: 'var(--muted)' },
                     grid: { color: 'var(--border)' }
