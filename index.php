@@ -35,7 +35,6 @@ include __DIR__ . '/includes/navbar.php';
   </div>
 </div>
 
-<!-- Stats bar -->
 <style>
   .stats-grid {
     max-width: 900px;
@@ -75,7 +74,6 @@ include __DIR__ . '/includes/navbar.php';
 
 <div class="container">
 
-  <!-- Countdown Timer Section -->
   <div style="margin-bottom:40px; margin-top: 30px;">
     <div class="section-header">
       <div class="section-icon" style="background:#FEE2E2">⏳</div>
@@ -84,7 +82,7 @@ include __DIR__ . '/includes/navbar.php';
         <div class="section-bar" style="background:#EF4444"></div>
       </div>
     </div>
-    
+
     <style>
       .countdown-wrapper {
         background: linear-gradient(135deg, var(--card) 0%, var(--bg) 100%);
@@ -173,7 +171,6 @@ include __DIR__ . '/includes/navbar.php';
   </div>
   <!-- End Countdown Timer Section -->
 
-  <!-- Courses -->
   <?php if ($courses): ?>
   <div style="margin-bottom:40px">
     <div class="section-header">
@@ -204,7 +201,6 @@ include __DIR__ . '/includes/navbar.php';
   </div>
   <?php endif; ?>
 
-  <!-- Quick Links -->
   <div style="margin-bottom:40px">
     <div class="section-header">
       <div class="section-icon" style="background:#FEF3C7"></div>
@@ -236,7 +232,6 @@ include __DIR__ . '/includes/navbar.php';
     </div>
   </div>
 
-  <!-- News -->
   <?php if ($news): ?>
   <div>
     <div class="section-header">
@@ -279,6 +274,5 @@ include __DIR__ . '/includes/navbar.php';
 
   gtag('config', 'G-E6TQ2XPHJG');
 </script>
-
 
 <?php include __DIR__ . '/includes/footer.php'; ?>

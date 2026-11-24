@@ -280,9 +280,9 @@ button { cursor: pointer; font-family: inherit; }
   box-shadow: 0 4px 20px var(--shadow);
   position: relative;
 }
-.card:hover { 
-  box-shadow: 0 8px 30px var(--shadow-lg); 
-  transform: translateY(-4px); 
+.card:hover {
+  box-shadow: 0 8px 30px var(--shadow-lg);
+  transform: translateY(-4px);
 }
 .card-grid {
   display: grid;
@@ -657,7 +657,7 @@ button { cursor: pointer; font-family: inherit; }
   cursor: pointer;
   transition: all 0.3s ease;
 }
-.btn-primary:hover { 
+.btn-primary:hover {
   background: var(--accent);
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(230, 0, 0, 0.3);

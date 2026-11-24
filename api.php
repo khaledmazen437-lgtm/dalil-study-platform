@@ -1,8 +1,8 @@
 <?php
-// =====================================================
+
 //  دليل — API Backend (PHP + MySQL)
 //  جميع نقاط الـ API في ملف واحد
-// =====================================================
+
 require_once __DIR__ . '/config.php';
 
 // ── CORS & Headers ──────────────────────────────────
@@ -77,13 +77,8 @@ function courseName(int|null $courseId): ?string {
 $method = $_SERVER['REQUEST_METHOD'];
 $uri    = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// Strip /api prefix
 $path = preg_replace('#^' . preg_quote(API_PREFIX, '#') . '#', '', $uri);
 $path = rtrim($path, '/') ?: '/';
-
-// ============================================================
-//  ROUTES
-// ============================================================
 
 // ── Health ───────────────────────────────────────────────────
 if ($method === 'GET' && $path === '/healthz') {

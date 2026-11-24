@@ -153,7 +153,7 @@
       xp += amount;
       localStorage.setItem('dalil_xp', xp);
       this.updateUI();
-      // Show small toast
+
       const toast = document.createElement('div');
       toast.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#10b981;color:#fff;padding:12px 20px;border-radius:12px;font-family:Tajawal,sans-serif;font-weight:700;z-index:10000;box-shadow:0 10px 25px rgba(0,0,0,0.2);transition:all 0.3s;';
       toast.innerHTML = `🌟 ممتاز! اكتسبت ${amount} نقطة (XP)`;
@@ -172,11 +172,9 @@
   document.addEventListener("DOMContentLoaded", function () {
     if (document.getElementById("notes-grid")) NotesApp.render();
     if (document.querySelector("[data-course-id]")) ProgressApp.renderAll();
-    
-    // Gamification Init
+
     if (window.Gamification) Gamification.updateUI();
 
-    // Onboarding Tour Init
     if (!localStorage.getItem('dalil_tour_done') && typeof introJs !== 'undefined') {
       setTimeout(() => {
         introJs().setOptions({

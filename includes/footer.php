@@ -7,11 +7,10 @@
 </footer>
 </footer>
 
-<!-- AI Assistant Widget -->
 <div id="ai-widget-container" style="position: fixed; bottom: 80px; left: 20px; z-index: 1000; direction: rtl;">
-    <!-- Chat Window -->
+
     <div id="ai-chat-window" style="display: none; width: 340px; height: 480px; background: var(--card); border: 1px solid var(--border); border-radius: 20px; box-shadow: 0 20px 40px var(--shadow-lg); flex-direction: column; overflow: hidden; margin-bottom: 16px; transform-origin: bottom left; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; transform: scale(0.9) translateY(20px);">
-        <!-- Header -->
+
         <div style="background: var(--primary); color: var(--card); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between;">
             <div style="display: flex; align-items: center; gap: 10px;">
                 <div style="width: 32px; height: 32px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
@@ -26,8 +25,7 @@
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
         </div>
-        
-        <!-- Messages -->
+
         <div id="ai-messages" style="flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; background: var(--bg); font-family: 'Cairo', sans-serif;">
             <div style="display: flex; gap: 10px; max-width: 85%;">
                 <div style="width: 28px; height: 28px; background: var(--primary); color: var(--card); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px;">
@@ -38,8 +36,7 @@
                 </div>
             </div>
         </div>
-        
-        <!-- Input -->
+
         <div style="padding: 16px; background: var(--card); border-top: 1px solid var(--border); display: flex; gap: 8px;">
             <button id="ai-voice-btn" onclick="startVoiceRecognition()" style="width: 42px; height: 42px; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s;" onmouseover="this.style.borderColor='var(--primary)'; this.style.color='var(--primary)';" onmouseout="this.style.borderColor='var(--border)'; this.style.color='var(--text)';">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
@@ -50,8 +47,7 @@
             </button>
         </div>
     </div>
-    
-    <!-- Floating Button -->
+
     <button id="ai-trigger" onclick="toggleAIChat()" style="width: 56px; height: 56px; background: var(--primary); color: var(--card); border: none; border-radius: 16px; box-shadow: 0 8px 24px var(--shadow-lg); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);" onmouseover="this.style.transform='scale(1.1) translateY(-4px)'" onmouseout="this.style.transform='scale(1) translateY(0)'">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><circle cx="9" cy="11" r="1"></circle><circle cx="15" cy="11" r="1"></circle></svg>
     </button>
@@ -82,10 +78,9 @@ async function sendAIMessage() {
     const input = document.getElementById('ai-input');
     const msg = input.value.trim();
     if (!msg) return;
-    
+
     const msgsContainer = document.getElementById('ai-messages');
-    
-    // 1. عرض رسالة المستخدم في الشات
+
     const userDiv = document.createElement('div');
     userDiv.style.cssText = 'display: flex; gap: 10px; max-width: 85%; align-self: flex-end; flex-direction: row-reverse;';
     userDiv.innerHTML = `
@@ -95,8 +90,7 @@ async function sendAIMessage() {
     msgsContainer.appendChild(userDiv);
     input.value = '';
     msgsContainer.scrollTop = msgsContainer.scrollHeight;
-    
-    // 2. إظهار حالة "جاري التفكير..." للمستخدم
+
     const typingDiv = document.createElement('div');
     typingDiv.id = 'ai-typing';
     typingDiv.style.cssText = 'display: flex; gap: 10px; max-width: 85%;';
@@ -112,7 +106,7 @@ async function sendAIMessage() {
     msgsContainer.scrollTop = msgsContainer.scrollHeight;
 
     try {
-        // 3. إرسال الطلب لملف الـ PHP 
+
         const response = await fetch('chat_api.php', {
             method: 'POST',
             headers: {
@@ -122,12 +116,10 @@ async function sendAIMessage() {
         });
 
         const data = await response.json();
-        
-        // 4. إزالة حالة "جاري التفكير..."
+
         const typingEl = document.getElementById('ai-typing');
         if(typingEl) typingEl.remove();
 
-        // 5. عرض رد الذكاء الاصطناعي
         const aiResponseText = data.reply ? data.reply.replace(/\n/g, '<br>') : "حدث خطأ غير متوقع.";
 
         const aiDiv = document.createElement('div');
@@ -147,7 +139,7 @@ async function sendAIMessage() {
         console.error("Error calling AI API:", error);
         const typingEl = document.getElementById('ai-typing');
         if(typingEl) typingEl.remove();
-        
+
         const errorDiv = document.createElement('div');
         errorDiv.style.cssText = 'display: flex; gap: 10px; max-width: 85%;';
         errorDiv.innerHTML = `
@@ -165,46 +157,44 @@ document.getElementById('ai-input').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') sendAIMessage();
 });
 
-// Voice AI
 function startVoiceRecognition() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
         alert("متصفحك لا يدعم التعرف على الصوت. جرب استخدام Google Chrome.");
         return;
     }
-    
+
     const recognition = new SpeechRecognition();
     recognition.lang = 'ar-SA';
     recognition.interimResults = false;
-    
+
     const btn = document.getElementById('ai-voice-btn');
     const originalSvg = btn.innerHTML;
-    
+
     recognition.onstart = function() {
         btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="var(--danger)" stroke="var(--danger)" stroke-width="2"><circle cx="12" cy="12" r="8"></circle></svg>`;
         btn.style.animation = 'pulse 1.5s infinite';
     };
-    
+
     recognition.onresult = function(event) {
         const text = event.results[0][0].transcript;
         document.getElementById('ai-input').value = text;
         setTimeout(sendAIMessage, 500);
     };
-    
+
     recognition.onerror = function(event) {
         console.error("Speech recognition error", event.error);
     };
-    
+
     recognition.onend = function() {
         btn.innerHTML = originalSvg;
         btn.style.animation = '';
     };
-    
+
     recognition.start();
 }
 </script>
 
-<!-- Spotlight Search Modal -->
 <div id="spotlight-overlay" onclick="if(event.target===this) closeSpotlight()">
     <div class="spotlight-modal">
         <div class="spotlight-input-wrap">
@@ -213,7 +203,7 @@ function startVoiceRecognition() {
             <span style="font-size: 11px; background: var(--bg); padding: 4px 8px; border-radius: 6px; color: var(--muted); border: 1px solid var(--border);">ESC</span>
         </div>
         <div class="spotlight-results" id="spotlight-results">
-            <!-- Mock Results -->
+
             <a href="<?= BASE_PATH ?>/courses" class="spotlight-item">
                 <div class="spotlight-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></div>
                 <div style="flex:1;">
@@ -240,7 +230,7 @@ function startVoiceRecognition() {
 </div>
 
 <script>
-// --- Spotlight Search Logic ---
+
 const spotlightOverlay = document.getElementById('spotlight-overlay');
 const spotlightInput = document.getElementById('spotlight-input');
 
