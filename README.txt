@@ -1,96 +1,45 @@
-=====================================================
-  دليل — منصة مازن خالد التعليمية
-  دليل التثبيت على استضافة PHP (cPanel / XAMPP)
-=====================================================
+دليل (Dalil) — Educational Study Platform
 
-المتطلبات:
-----------
-  - PHP 8.0 أو أحدث
-  - MySQL 5.7 أو أحدث (أو MariaDB 10.4+)
-  - Apache + mod_rewrite مفعّل
+> منصة تعليمية متكاملة لطالب الحاسبات: كورسات، امتحانات، فلاش كاردز، حساب GPA، مؤقت تركيز، وملاحظات — كلها في مكان واحد.
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  الطريقة أ: على XAMPP (للاختبار المحلي)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+A full-stack PHP/MySQL study platform for computer-science students, with an admin panel and a mobile-friendly UI.
 
-1. انسخ كل الملفات إلى:
-     C:\xampp\htdocs\dalil\
+## Features
 
-2. افتح phpMyAdmin: http://localhost/phpmyadmin
-   - أنشئ قاعدة بيانات جديدة باسم: dalil_db
-   - اختر قاعدة البيانات → Import → اختر setup.sql
+- Courses, materials and resources pages
+- Exams and quizzes with a JSON-driven question bank
+- Flashcards with an admin-editable deck (`admin/flashcards.json`)
+- GPA calculator, weekly planner and progress tracking
+- Focus timer and notes
+- Admin panel (under `/mhd-admin`) for content management
+- PWA basics: `manifest.json` and a service worker (`sw.js`)
 
-3. افتح ملف config.php وتأكد من:
-     DB_HOST = 'localhost'
-     DB_NAME = 'dalil_db'
-     DB_USER = 'root'
-     DB_PASS = ''  ← فاضي في XAMPP عادةً
+## Tech Stack
 
-4. *** مهم: لأن الموقع في مجلد فرعي /dalil ***
-   افتح config.php وغيّر:
-     define('BASE_PATH', '/dalil');
+- PHP 8+ (no framework), MySQL/MariaDB
+- Vanilla HTML/CSS/JS (`assets/style.css`, `assets/main.js`)
+- Apache with `mod_rewrite` (`.htaccess` included)
 
-5. زر الموقع: http://localhost/dalil/
-   لوحة الإدمن: http://localhost/dalil/mhd-admin
+## Project Structure
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  الطريقة ب: على استضافة حقيقية (cPanel)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```text
+├── index.php          # Home
+├── pages/             # courses, exams, flashcards, gpa, focus, notes, quiz...
+├── admin/             # Admin panel + editable JSON content
+├── includes/          # db.php, header, footer, navbar
+├── assets/            # CSS, JS, images
+├── config.php         # DB + site settings
+├── setup.sql          # Database schema and seed data
+└── api.php            # JSON API endpoints
+```
 
-1. أنشئ قاعدة بيانات في cPanel → MySQL Databases
-   واحتفظ بـ: اسم DB، اسم المستخدم، كلمة المرور
+## Setup (XAMPP)
 
-2. استورد setup.sql عبر phpMyAdmin
+1. Copy files to `C:\xampp\htdocs\dalil\`
+2. Create a MySQL database `dalil_db` and import `setup.sql` via phpMyAdmin
+3. Edit `config.php` (DB credentials + `BASE_PATH`)
+4. Open `http://localhost/dalil/`
 
-3. افتح config.php وغيّر:
-     DB_HOST = 'localhost'  (أو ما يعطيك إياه السيرفر)
-     DB_NAME = 'اسم_قاعدة_البيانات'
-     DB_USER = 'مستخدم_قاعدة_البيانات'
-     DB_PASS = 'كلمة_المرور'
-     BASE_PATH = ''  ← فاضي لو رافع على الـ root
+> ⚠️ Security: never commit real database or admin credentials. Keep secrets in environment variables or an untracked config file, and rotate any credential that was ever committed.
 
-4. ارفع كل الملفات على public_html (أو www)
 
-5. زر موقعك — يعمل مباشرة!
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  إعداد BASE_PATH
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-في ملف config.php:
-  define('BASE_PATH', '');        ← لو رافع على الـ root
-  define('BASE_PATH', '/dalil');  ← لو في مجلد فرعي اسمه dalil
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  بيانات الإدمن
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  الرابط:       /mhd-admin
-  المستخدم:     admin
-  كلمة المرور:  admin123
-
-  ⚠ غيّر كلمة المرور بعد أول تسجيل دخول!
-
-لتغيير كلمة المرور:
-  افتح config.php وغيّر ADMIN_HASH بـ:
-    define('ADMIN_HASH', hash('sha256', 'كلمة_مرورك_الجديدة' . 'mhd_salt_2024'));
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  استكشاف الأخطاء
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  ✦ الصفحة تظهر بدون تصميم (CSS):
-    → تأكد من قيمة BASE_PATH في config.php
-
-  ✦ خطأ 500:
-    → تأكد من تفعيل mod_rewrite
-    → في XAMPP: Apache → httpd.conf → فعّل AllowOverride All
-
-  ✦ خطأ في قاعدة البيانات:
-    → تأكد من صحة إعدادات DB_* في config.php
-
-  ✦ صفحة الإدمن لا تعمل:
-    → تأكد أن session_start يعمل في PHP
-    → تأكد من تفعيل الـ session في php.ini
-
-=====================================================
